@@ -29,6 +29,6 @@ leaks: $(NAME)
 		--track-origins=yes ./$(NAME)
 
 threads: $(NAME)
-	valgrind --tool=helgrind --log-file=helgrind.log --verbose --history-level=full  ./$(NAME)
+	valgrind --tool=helgrind --verbose --history-level=full  ./$(NAME)
 
 .PHONY: all clean fclean re

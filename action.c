@@ -10,17 +10,17 @@ void	print_action(struct s_philo *philo, char *action)
 	CHECK_ERR(pthread_mutex_unlock(philo->shared->write_lock));
 }
 
-void	taking_fork(struct s_philo *philo)
-{
-	print_action(philo, FORK_STR);
-	CHECK_ERR(pthread_mutex_lock());
-}
-
 void	eating(struct s_philo *philo)
 {
+	print_action(philo, FORK_STR);
+	CHECK_ERR(pthread_mutex_lock(philo->left_fork));
+	print_action(philo, FORK_STR);
+	CHECK_ERR(pthread_mutex_lock(philo->right_fork));
 	print_action(philo, EAT_STR);
 	ft_usleep(philo->shared->time_to_eat);
 	philo->meal_eaten++;
+	CHECK_ERR(pthread_mutex_unlock(philo->left_fork));
+	CHECK_ERR(pthread_mutex_unlock(philo->right_fork));
 }
 
 void	sleeping(struct s_philo *philo)

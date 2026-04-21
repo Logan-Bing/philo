@@ -9,7 +9,7 @@
 #include "string.h"
 
 
-#define	NB_PHILO 5
+#define	NB_PHILO 4
 
 #define EAT_STR "is eating"
 #define SLEEP_STR "is sleeping"
@@ -36,6 +36,8 @@ typedef struct s_philo t_philo;
 typedef struct s_shared
 {
 	int		numbers_of_philo;
+	int		nb_meal_to_eat;
+	int		stop;
 	size_t	time_to_eat;
 	size_t	time_to_die;
 	size_t	time_to_think;
@@ -51,11 +53,19 @@ typedef struct s_philo
 	t_shared	*shared;
 	int			id;
 	int			meal_eaten;
+	int			dead;
 	long		last_meal;
 	t_state			state;
 	pthread_mutex_t *right_fork;
 	pthread_mutex_t *left_fork;
 } t_philo;
+
+typedef struct s_monitor
+{
+	pthread_t	thread;
+	t_shared	*shared;
+	t_philo		**philo;
+} t_monitor;
 
 ///////////////////////// ACTIONS.C /////////////////////////
 void	eating(struct s_philo *philo);
