@@ -1,32 +1,20 @@
 #include "header.h"
 
-pthread_mutexattr_t attr;
-
-t_philo	**init_philos(t_shared *shared)
+int	start_philos_routine(t_philo **philos)
 {
-	t_philo 		**philo;
+	int	i;
+	t_shared *shared;
 
-	for (int i = 0; i < shared->n_philo; i++)
-		pthread_mutex_init(&shared->forks[i], &attr);
-	philo = malloc(sizeof(t_philo *) * shared->n_philo);
-	if (!philo)
-		return (NULL);
-	for (int i = 0; i < shared->n_philo; i++)
+	i = 0;
+	shared = philos[i]->shared;
+	shared->start_time = get_current_time();
+	while (i < shared->n_philo)
 	{
-		philo[i] = malloc(sizeof(t_philo));
-		if (!philo[i])
-			return (NULL);
-		philo[i]->shared = shared;
-		philo[i]->state = SLEEPING;
-		philo[i]->dead = 0;
-		philo[i]->id = i + 1;
-		philo[i]->left_fork = &shared->forks[i];
-		philo[i]->right_fork = &shared->forks[(i + 1) % shared->n_philo];
-		pthread_mutex_init(&philo[i]->dead_lock, &attr);
-		pthread_mutex_init(&philo[i]->meal_eaten_lock, &attr);
-		pthread_mutex_init(&philo[i]->last_meal_lock, &attr);
+		if (pthread_create(&philos[i]->thread, NULL, routine, philos[i]) != 0)
+			return (0);
+		i++;
 	}
-	return (philo);
+	return (1);
 }
 
 int main(int argc, char *argv[])
@@ -35,31 +23,33 @@ int main(int argc, char *argv[])
 	pthread_mutexattr_init(&attr);
 	pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK);
 	//////////////// DEV ////////////////////////////////////
-	
+	t_shared	shared;
+	t_philo		**philos;
+	pthread_t	monitor;
 
-	// t_shared shared = {
-	// 	.stop = 0,
-	// 	.n_philo = NB_PHILO, 
-	// 	.time_to_die = 810,
-	// 	.time_to_eat = 440,
-	// 	.time_to_sleep = 200,
-	// 	.must_eat = 100,
-	// 	.time_to_think = 0,
-	// };
-	//
-	// pthread_mutex_init(&shared.stop_lock, &attr);
-	// pthread_mutex_init(&shared.write_lock, &attr);
-	//
-	//
-	// // Trouver une solution pour les faire commencer en meme temps
-	// shared.start_time = get_current_time();
-	// for (int i = 0; i < NB_PHILO; i++)
-	// {
-	// 	pthread_create(&philo[i]->thread, NULL, routine, philo[i]);
-	// }
-	//
-	// pthread_create(&monitor, NULL, routine_monitor, philo);
-	// pthread_join(monitor, NULL);
-	//
-	// clear_philo(philo);
+	if (argc < 5 || argc > 6)
+	{
+		write(2, ARG_ERROR, 29);
+		return (1);
+	}
+	shared = (t_shared){
+		.stop = 0,
+		.n_philo = ft_atol(argv[1]),
+		.time_to_die = ft_atol(argv[2]),
+		.time_to_eat = ft_atol(argv[3]),
+		.time_to_sleep = ft_atol(argv[4]),
+		.must_eat = -1
+	};
+	if (!is_valid_data(&shared, argc, argv))
+		return (1);
+	init_shared_mutex(&shared);
+	philos = init_philos(&shared);
+	if (!start_philos_routine(philos))
+	{
+		write(2, THREAD_ERROR, 20);
+		return (1);
+	}
+	pthread_create(&monitor, NULL, routine_monitor, philos);
+	pthread_join(monitor, NULL);
+	clear_philo(philos);
 }

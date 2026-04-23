@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJDIR = build
 
-SRCS = main.c action.c clear.c utils.c routine.c shared.c
+SRCS = main.c action.c clear.c utils.c routine.c shared_helpers.c shared_access.c parsing.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 all: $(NAME)
@@ -23,6 +23,9 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
+
+lazy: CFLAGS =
+lazy: re
 
 leaks: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes \

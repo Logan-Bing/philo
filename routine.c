@@ -19,28 +19,22 @@ void	*routine_monitor(void *arg)
 {
 	t_philo		**philo = (t_philo **)arg;
 	t_shared	*shared = philo[0]->shared;
-	int			philo_eaten;
+	int			philos_ate_count;
 	int i;
 
-	philo_eaten = 0;
+	philos_ate_count = 0;
 	while (1)
 	{
 		i = 0;
-		while (i < NB_PHILO)
+		while (i < shared->n_philo)
 		{
 			if (last_meal_elapsed_time(philo[i]) >= shared->time_to_die)
 				update_shared_value(&philo[i]->dead_lock, &philo[i]->dead);
-			if (read_shared_value(&philo[i]->meal_eaten_lock, &philo[i]->meal_eaten) >= shared->must_eat)
-				philo_eaten++;
-			if (philo_eaten == NB_PHILO)
+			if (has_philo_finish_eaten(philo[i]))
+				philos_ate_count++;
+			if (is_philo_dead(philo[i]) || all_philos_ate(philo[i], philos_ate_count))
 			{
 				update_shared_value(&shared->stop_lock, &shared->stop);
-				break;
-			}
-			if (read_shared_value(&philo[i]->dead_lock, &philo[i]->dead))
-			{
-				update_shared_value(&shared->stop_lock, &shared->stop);
-				print_action(philo[i], DEATH_STR);
 				break;
 			}
 			i++;

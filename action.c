@@ -3,7 +3,11 @@
 int	print_action(struct s_philo *philo, char *action)
 {
 	long	timestamp;
+	t_shared *shared;
 
+	shared = philo->shared;
+	if (read_shared_value(&shared->stop_lock, &shared->stop))
+		return (0);
 	CHECK_ERR(pthread_mutex_lock(&philo->shared->write_lock));
 	timestamp = get_current_time() - philo->shared->start_time;
 	printf("%ld %d %s\n", timestamp, philo->id, action);
@@ -13,11 +17,18 @@ int	print_action(struct s_philo *philo, char *action)
 
 int	eating(struct s_philo *philo)
 {
-	t_shared *shared = philo->shared;
+	t_shared *shared;
+
+	shared = philo->shared;
 	if (read_shared_value(&shared->stop_lock, &shared->stop))
 			return (0);
 	print_action(philo, FORK_STR);
 	CHECK_ERR(pthread_mutex_lock(philo->left_fork));
+	if (shared->n_philo == 1 && !philo->right_fork)
+	{
+		ft_usleep(philo->shared->time_to_die);
+		return (0);
+	}
 	print_action(philo, FORK_STR);
 	CHECK_ERR(pthread_mutex_lock(philo->right_fork));
 	print_action(philo, EAT_STR);
@@ -45,7 +56,7 @@ int	thinking(struct s_philo *philo)
 	t_shared *shared = philo->shared;
 
 	if (read_shared_value(&shared->stop_lock, &shared->stop))
-			return (0);
+		return (0);
 	print_action(philo, THINK_STR);
 	return (1);
 }

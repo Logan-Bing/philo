@@ -25,3 +25,30 @@ long	last_meal_elapsed_time(t_philo *philo)
 	timestamp = get_current_time() - philo->shared->start_time;
 	return (timestamp - read_last_meal(philo));
 }
+
+long	ft_atol(const char *str)
+{
+	int		i;
+	long	nb;
+
+	i = 0;
+	nb = 0;
+	while (((str[i] == ' ') || (str[i] >= '\t' && str[i] <= '\r')))
+		i++;
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+		{
+			nb *= 10;
+			nb += (str[i] - '0');
+			i++;
+		}
+		else
+		{
+			return (-1);
+		}
+	}
+	if (nb > INT_MAX)
+		return (-1);
+	return (nb);
+}
