@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 OBJDIR = build
 
-SRCS = action.c utils.c philo.c
+SRCS = main.c action.c clear.c utils.c routine.c shared.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 all: $(NAME)

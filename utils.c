@@ -17,3 +17,11 @@ int	ft_usleep(size_t milliseconds)
 		usleep(100);
 	return (0);
 }
+
+long	last_meal_elapsed_time(t_philo *philo)
+{
+	long	timestamp;
+
+	timestamp = get_current_time() - philo->shared->start_time;
+	return (timestamp - read_last_meal(philo));
+}
