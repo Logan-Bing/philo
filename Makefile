@@ -1,10 +1,10 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 OBJDIR = build
 
-SRCS = main.c action.c clear.c utils.c routine.c shared_helpers.c shared_access.c parsing.c
+SRCS = main.c action.c clear.c utils.c routine.c shared_helpers.c shared_access.c parsing.c init.c
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 all: $(NAME)
