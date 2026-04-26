@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/26 16:00:53 by llugez            #+#    #+#             */
+/*   Updated: 2026/04/26 16:01:43 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
-long get_current_time(void)
+long	get_current_time(void)
 {
-    struct timeval tv;
+	struct timeval	tv;
 
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 int	ft_usleep(size_t milliseconds)

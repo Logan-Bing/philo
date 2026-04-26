@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/26 16:00:53 by llugez            #+#    #+#             */
+/*   Updated: 2026/04/26 16:38:21 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 int	start_philos_routine(t_philo **philos)
 {
-	int	i;
-	t_shared *shared;
+	int			i;
+	t_shared	*shared;
 
 	i = 0;
 	shared = philos[i]->shared;
@@ -19,12 +31,14 @@ int	start_philos_routine(t_philo **philos)
 
 t_philo	**init_philos(t_shared *shared)
 {
-	t_philo 		**philo;
+	t_philo	**philo;
+	int		i;
 
+	i = 0;
 	philo = malloc(sizeof(t_philo *) * shared->n_philo);
 	if (!philo)
 		return (NULL);
-	for (int i = 0; i < shared->n_philo; i++)
+	while (i < shared->n_philo)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
@@ -39,11 +53,29 @@ t_philo	**init_philos(t_shared *shared)
 		philo[i]->right_fork = &shared->forks[(i + 1) % shared->n_philo];
 		if (shared->n_philo == 1)
 			philo[i]->right_fork = NULL;
-		pthread_mutex_init(&philo[i]->dead_lock, NULL);
-		pthread_mutex_init(&philo[i]->meal_eaten_lock, NULL);
-		pthread_mutex_init(&philo[i]->last_meal_lock, NULL);
+		i++;
 	}
 	return (philo);
+}
+
+int	init_philos_mutex(t_philo **philos)
+{
+	int			i;
+	t_shared	*shared;
+
+	i = 0;
+	shared = philos[i]->shared;
+	while (i < shared->n_philo)
+	{
+		if (pthread_mutex_init(&philos[i]->dead_lock, NULL) != 0)
+			return (0);
+		if (pthread_mutex_init(&philos[i]->meal_eaten_lock, NULL) != 0)
+			return (0);
+		if (pthread_mutex_init(&philos[i]->last_meal_lock, NULL) != 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	init_shared_mutex(t_shared *shared)
@@ -53,11 +85,13 @@ int	init_shared_mutex(t_shared *shared)
 	i = 0;
 	while (i < shared->n_philo)
 	{
-		pthread_mutex_init(&shared->forks[i], NULL);
+		if (pthread_mutex_init(&shared->forks[i], NULL) != 0)
+			return (0);
 		i++;
 	}
-	pthread_mutex_init(&shared->stop_lock, NULL);
-	pthread_mutex_init(&shared->write_lock, NULL);
+	if (pthread_mutex_init(&shared->stop_lock, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init(&shared->write_lock, NULL) != 0)
+		return (0);
 	return (1);
 }
-
