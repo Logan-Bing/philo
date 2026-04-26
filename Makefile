@@ -1,18 +1,20 @@
-NAME = philo
+NAME = philo/philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 OBJDIR = build
+SRCS_DIR = philo/
 
-SRCS = main.c action.c clear.c utils.c routine.c shared_helpers.c shared_access.c parsing.c init.c
-OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
+SRCS_FILES = main.c action.c clear.c utils.c routine.c shared_helpers.c shared_access.c parsing.c init.c
+SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS_FILES:.c=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(OBJDIR)/%.o: %.c
+$(OBJDIR)/%.o: $(SRCS_DIR)/%.c
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
