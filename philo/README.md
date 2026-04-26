@@ -17,8 +17,6 @@ Mumber_of_times_each_philosopher_must_eat (optional argument): If all
 philosophers have eaten atleast number_of_times_each_philosopher_must_eat times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
 
-##  
-
 # 2) Instruction
 
 ### Compilation
@@ -27,10 +25,13 @@ philosopher dies.
 make
 ```
 
-### Run 
+### Some Test 
 
 ```bash
-./philo
+./philo 1 800 200 200
+./philo 5 800 200 200
+./philo 5 800 200 200 7
+./philo 4 410 200 200
 ```
 
 ### Clean
