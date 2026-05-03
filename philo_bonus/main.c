@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
 	pthread_t	thread_death;
 	pthread_t	thread_full;
 
-	thread_full = NULL;
 	clear_sem();
 	if (!is_valid_n_of_args(argc))
 		return (1);
