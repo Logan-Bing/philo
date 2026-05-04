@@ -78,7 +78,7 @@ typedef struct s_philo
 	int		id;
 	int		meal_eaten;
 	long	last_meal;
-	sem_t	*full;
+	pthread_t	thread;
 	sem_t	*sem_meal_eaten;
 	sem_t	*sem_last_meal;
 	t_shared *shared;
@@ -89,7 +89,8 @@ int		is_valid_data(t_shared *shared, int argc, char **argv);
 int	is_valid_n_of_args(int argc);
 
 ///////////////////////// CLEAR.C /////////////////////////
-void	clear_sem(void);
+void	clear_sem(t_shared *shared);
+void	unlink_all_sem(void);
 int		kill_philos(t_shared *shared);
 
 ///////////////////////// UTILS.C /////////////////////////
@@ -119,4 +120,5 @@ int	init_shared_sem(t_shared *shared);
 void	*routine_death(void *arg);
 void	*routine_full(void *arg);
 void *local_routine(void *arg);
+
 #endif

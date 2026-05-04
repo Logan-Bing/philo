@@ -2,11 +2,21 @@
 
 void	*routine_death(void *arg)
 {
-	t_shared *shared;
+	t_shared 	*shared;
+	int			i;
 
+	i = 0;
 	shared = (t_shared *)arg;
 	sem_wait(shared->dead);
 	kill_philos(shared);
+	if (shared->must_eat != -1)
+	{
+		while (i < shared->n_philo)
+		{
+			sem_post(shared->full);
+			i++;
+		}
+	}
 	sem_post(shared->end);
 	return (NULL);
 }
@@ -24,6 +34,7 @@ void	*routine_full(void *arg)
 		philo_full++;
 	}
 	kill_philos(shared);
+	sem_post(shared->dead);
 	sem_post(shared->end);
 	return (NULL);
 }

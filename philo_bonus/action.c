@@ -57,5 +57,7 @@ int		sleeping(struct s_philo *philo)
 int		thinking(struct s_philo *philo)
 {
 	print_action(philo, THINK_STR);
+	if (philo->shared->n_philo % 2 != 0)
+		ft_usleep(100);
 	return (1);
 }
