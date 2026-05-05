@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 09:10:45 by llugez            #+#    #+#             */
+/*   Updated: 2026/05/05 09:10:55 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bonus.h"
 
 int	print_action(struct s_philo *philo, char *action)
@@ -9,9 +21,7 @@ int	print_action(struct s_philo *philo, char *action)
 	timestamp = get_current_time() - shared->start_time;
 	sem_wait(shared->print);
 	printf("%ld %d %s\n", timestamp, philo->id, action);
-	fflush(stdout);
-	// remplacer par ft_strcmp
-	if (strcmp(action, DEATH_STR) != 0)
+	if (ft_strcmp(action, DEATH_STR) != 0)
 		sem_post(shared->print);
 	return (1);
 }
@@ -24,9 +34,9 @@ int	update_meal_eaten(t_philo *philo)
 	return (1);
 }
 
-int		eating(struct s_philo *philo)
+int	eating(struct s_philo *philo)
 {
-	t_shared 	*shared;
+	t_shared	*shared;
 
 	shared = philo->shared;
 	sem_wait(shared->waiters);
@@ -44,9 +54,9 @@ int		eating(struct s_philo *philo)
 	return (1);
 }
 
-int		sleeping(struct s_philo *philo)
+int	sleeping(struct s_philo *philo)
 {
-	t_shared 	*shared;
+	t_shared	*shared;
 
 	shared = philo->shared;
 	print_action(philo, SLEEP_STR);
@@ -54,7 +64,7 @@ int		sleeping(struct s_philo *philo)
 	return (1);
 }
 
-int		thinking(struct s_philo *philo)
+int	thinking(struct s_philo *philo)
 {
 	print_action(philo, THINK_STR);
 	if (philo->shared->n_philo % 2 != 0)

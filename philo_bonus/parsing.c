@@ -6,7 +6,7 @@
 /*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 16:00:53 by llugez            #+#    #+#             */
-/*   Updated: 2026/04/26 16:01:43 by llugez           ###   ########.fr       */
+/*   Updated: 2026/05/05 08:47:41 by llugez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ int	is_valid_data(t_shared *shared, int argc, char *argv[])
 	}
 	return (1);
 }
-

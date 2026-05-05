@@ -6,7 +6,7 @@
 /*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 16:00:53 by llugez            #+#    #+#             */
-/*   Updated: 2026/04/26 16:29:32 by llugez           ###   ########.fr       */
+/*   Updated: 2026/05/05 09:39:49 by llugez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	shared = philo->shared;
 	if (philo->id % 2 == 0)
-		ft_usleep(shared->time_to_eat);
+		ft_usleep(shared, shared->time_to_eat);
 	while (1)
 	{
 		if (!eating(philo) || !sleeping(philo) || !thinking(philo))
@@ -48,7 +48,7 @@ void	*routine_monitor(void *arg)
 
 	philo = (t_philo **)arg;
 	shared = philo[0]->shared;
-	ft_usleep(shared->time_to_eat - 100);
+	ft_usleep(shared, shared->time_to_eat - 100);
 	while (1)
 	{
 		i = 0;
@@ -62,7 +62,7 @@ void	*routine_monitor(void *arg)
 			}
 			i++;
 		}
-		ft_usleep(100);
+		usleep(100);
 		if (shared->stop)
 			break ;
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clear.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 09:11:26 by llugez            #+#    #+#             */
+/*   Updated: 2026/05/05 09:11:26 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bonus.h"
 
 static void	clear_all_sem(t_shared *shared)
@@ -30,9 +42,9 @@ void	clear_sem(t_shared *shared)
 	unlink_all_sem();
 }
 
-int		kill_philos(t_shared *shared)
+int	kill_philos(t_shared *shared)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < shared->n_philo)

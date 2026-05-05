@@ -6,7 +6,7 @@
 /*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 16:00:53 by llugez            #+#    #+#             */
-/*   Updated: 2026/04/26 16:37:59 by llugez           ###   ########.fr       */
+/*   Updated: 2026/05/05 09:38:19 by llugez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int					init_philos_mutex(t_philo **philos);
 
 ///////////////////////// UTILS.C /////////////////////////
 long				get_current_time(void);
-int					ft_usleep(size_t milliseconds);
+int					ft_usleep(t_shared *shared, size_t milliseconds);
 long				last_meal_elapsed_time(t_philo *philo);
 long				ft_atol(const char *str);
 

@@ -1,36 +1,29 @@
-#ifndef HEADER_H
-#define HEADER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 09:10:10 by llugez            #+#    #+#             */
+/*   Updated: 2026/05/05 09:10:18 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <semaphore.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <signal.h>
-#include <string.h>
+#ifndef BONUS_H
+# define BONUS_H
+
+# include <fcntl.h>
+# include <pthread.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
-
-// Les fourchettes sont au milieu de la table
-// Lancer les process(philo)
-// Pseudo code :
-// sem_t waiter = n_philo - 1;
-// wait(waiter)
-// wait(forks)
-// wait(forks)
-// eating()
-// post(forks)
-// post(forks)
-// post( waiter)
-
-// Arreter les process(philos)
-//
-
-// SEMAPHORE
-/////////// Global: Forks, waiters
-////////// Local: meal_eaten, last_meal, dead
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # define MAX_PHILO 200
 
@@ -40,15 +33,15 @@
 # define FORK_STR "has taken a fork"
 # define DEATH_STR "died"
 
-#define SEM_DEATH "/death"
-#define SEM_FULL "/full"
-#define SEM_END "/end"
-#define SEM_LAST_MEAL "/last_meal"
-#define SEM_MEAL_EATEN "/meal_eaten"
-#define SEM_PRINT "/print"
-#define SEM_WAITERS "/waiters"
-#define SEM_FORKS "/forks"
-#define SEM_START "/start"
+# define SEM_DEATH "/death"
+# define SEM_FULL "/full"
+# define SEM_END "/end"
+# define SEM_LAST_MEAL "/last_meal"
+# define SEM_MEAL_EATEN "/meal_eaten"
+# define SEM_PRINT "/print"
+# define SEM_WAITERS "/waiters"
+# define SEM_FORKS "/forks"
+# define SEM_START "/start"
 
 # define INT_MIN -2147483648
 # define INT_MAX 2147483647
@@ -57,68 +50,69 @@
 
 typedef struct s_shared
 {
-	int				philo_pid[MAX_PHILO];
-	int				n_philo;
-	int				must_eat;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	long			start_time;
-	sem_t			*dead;
-	sem_t			*full;
-	sem_t			*end;
-	sem_t			*print;
-	sem_t			*waiters;
-	sem_t			*forks;
-	sem_t			*start;
-}					t_shared;
+	int			philo_pid[MAX_PHILO];
+	int			n_philo;
+	int			must_eat;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		start_time;
+	sem_t		*dead;
+	sem_t		*full;
+	sem_t		*end;
+	sem_t		*print;
+	sem_t		*waiters;
+	sem_t		*forks;
+	sem_t		*start;
+}				t_shared;
 
 typedef struct s_philo
 {
-	int		id;
-	int		meal_eaten;
-	long	last_meal;
+	int			id;
+	int			meal_eaten;
+	long		last_meal;
 	pthread_t	thread;
-	sem_t	*sem_meal_eaten;
-	sem_t	*sem_last_meal;
-	t_shared *shared;
-}	t_philo;
+	sem_t		*sem_meal_eaten;
+	sem_t		*sem_last_meal;
+	t_shared	*shared;
+}				t_philo;
 
 ///////////////////////// PARSING.C /////////////////////////
-int		is_valid_data(t_shared *shared, int argc, char **argv);
-int	is_valid_n_of_args(int argc);
+int				is_valid_data(t_shared *shared, int argc, char **argv);
+int				is_valid_n_of_args(int argc);
 
 ///////////////////////// CLEAR.C /////////////////////////
-void	clear_sem(t_shared *shared);
-void	unlink_all_sem(void);
-int		kill_philos(t_shared *shared);
+void			clear_sem(t_shared *shared);
+void			unlink_all_sem(void);
+int				kill_philos(t_shared *shared);
 
 ///////////////////////// UTILS.C /////////////////////////
-long	get_current_time(void);
-int		ft_usleep(size_t milliseconds);
-long	ft_atol(const char *str);
-void	ft_bzero(void *s, size_t n);
+long			get_current_time(void);
+int				ft_usleep(size_t milliseconds);
+long			ft_atol(const char *str);
+void			ft_bzero(void *s, size_t n);
+int				ft_strcmp(char *s1, char *s2);
 
 ///////////////////////// ACTION.C /////////////////////////
-int		print_action(struct s_philo *philo, char *action);
-int		eating(struct s_philo *philo);
-int		sleeping(struct s_philo *philo);
-int		thinking(struct s_philo *philo);
+int				print_action(struct s_philo *philo, char *action);
+int				eating(struct s_philo *philo);
+int				sleeping(struct s_philo *philo);
+int				thinking(struct s_philo *philo);
 
 ///////////////////////// SHARED_ACCESS.C /////////////////////////
-long	last_meal_elapsed_time(t_philo *philo);
-int	update_last_meal(t_philo *philo);
+long			last_meal_elapsed_time(t_philo *philo);
+int				update_last_meal(t_philo *philo);
 
 ///////////////////////// SHARED_HELPERS.C /////////////////////////
-int is_sated(t_philo *philo);
-int	is_full(t_philo *philo);
+int				is_sated(t_philo *philo);
+int				is_full(t_philo *philo);
 
 ///////////////////////// INIT.C /////////////////////////
-int	init_shared_sem(t_shared *shared);
+int				init_shared_sem(t_shared *shared);
 
 ///////////////////////// ROUTINE.C /////////////////////////
-void	*routine_death(void *arg);
-void	*routine_full(void *arg);
-void *local_routine(void *arg);
+void			*routine_death(void *arg);
+void			*routine_full(void *arg);
+void			*local_routine(void *arg);
 
 #endif

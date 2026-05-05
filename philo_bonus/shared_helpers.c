@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shared_helpers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 09:10:33 by llugez            #+#    #+#             */
+/*   Updated: 2026/05/05 09:10:33 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bonus.h"
 
-int is_sated(t_philo *philo)
+int	is_sated(t_philo *philo)
 {
 	return (last_meal_elapsed_time(philo) <= philo->shared->time_to_die);
 }
 
 int	is_full(t_philo *philo)
 {
-	t_shared 	*shared;
-	int	value;
+	t_shared	*shared;
+	int			value;
 
 	shared = philo->shared;
 	if (shared->must_eat == -1)

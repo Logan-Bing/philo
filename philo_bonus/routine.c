@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 09:10:21 by llugez            #+#    #+#             */
+/*   Updated: 2026/05/05 09:10:30 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bonus.h"
 
 void	*routine_death(void *arg)
 {
-	t_shared 	*shared;
+	t_shared	*shared;
 	int			i;
 
 	i = 0;
@@ -23,7 +35,7 @@ void	*routine_death(void *arg)
 
 void	*routine_full(void *arg)
 {
-	t_shared *shared;
+	t_shared	*shared;
 	int			philo_full;
 
 	shared = (t_shared *)arg;
@@ -39,11 +51,11 @@ void	*routine_full(void *arg)
 	return (NULL);
 }
 
-void *local_routine(void *arg)
+void	*local_routine(void *arg)
 {
-	t_philo *philo;
-	t_shared *shared;
-	int	is_already_full;
+	t_philo		*philo;
+	t_shared	*shared;
+	int			is_already_full;
 
 	philo = (t_philo *)arg;
 	shared = philo->shared;

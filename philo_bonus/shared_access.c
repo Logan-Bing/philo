@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shared_access.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 09:11:10 by llugez            #+#    #+#             */
+/*   Updated: 2026/05/05 09:11:11 by llugez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bonus.h"
 
 long	last_meal_elapsed_time(t_philo *philo)
 {
-	long value;
-	long timestamp;
+	long	value;
+	long	timestamp;
 
 	sem_wait(philo->sem_last_meal);
 	value = philo->last_meal;

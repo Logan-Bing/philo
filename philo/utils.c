@@ -6,7 +6,7 @@
 /*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 16:00:53 by llugez            #+#    #+#             */
-/*   Updated: 2026/04/26 16:01:43 by llugez           ###   ########.fr       */
+/*   Updated: 2026/05/05 09:37:39 by llugez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ long	get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-int	ft_usleep(size_t milliseconds)
+int	ft_usleep(t_shared *shared, size_t milliseconds)
 {
 	size_t	start;
 
 	start = get_current_time();
-	while ((get_current_time() - start) < milliseconds)
+	while ((get_current_time() - start) < milliseconds
+		&& !read_shared_value(&shared->stop_lock, &shared->stop))
 		usleep(100);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: llugez </var/spool/mail/llugez>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 15:46:58 by llugez            #+#    #+#             */
-/*   Updated: 2026/04/26 16:01:42 by llugez           ###   ########.fr       */
+/*   Updated: 2026/05/05 09:39:01 by llugez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	taking_forks(t_philo *philo)
 		print_action(philo, FORK_STR);
 		if (shared->n_philo == 1 && !philo->right_fork)
 		{
-			ft_usleep(philo->shared->time_to_die);
+			ft_usleep(shared, philo->shared->time_to_die);
 			pthread_mutex_unlock(philo->left_fork);
 			return (0);
 		}
@@ -69,7 +69,7 @@ int	eating(t_philo *philo)
 		return (0);
 	print_action(philo, EAT_STR);
 	update_last_meal(philo);
-	ft_usleep(philo->shared->time_to_eat);
+	ft_usleep(shared, philo->shared->time_to_eat);
 	update_shared_value(&philo->meal_eaten_lock, &philo->meal_eaten);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -84,7 +84,7 @@ int	sleeping(struct s_philo *philo)
 	if (read_shared_value(&shared->stop_lock, &shared->stop))
 		return (0);
 	print_action(philo, SLEEP_STR);
-	ft_usleep(philo->shared->time_to_sleep);
+	ft_usleep(shared, philo->shared->time_to_sleep);
 	return (1);
 }
 
@@ -97,6 +97,6 @@ int	thinking(struct s_philo *philo)
 		return (0);
 	print_action(philo, THINK_STR);
 	if (shared->n_philo % 2 != 0)
-		ft_usleep(100);
+		ft_usleep(shared, 100);
 	return (1);
 }
